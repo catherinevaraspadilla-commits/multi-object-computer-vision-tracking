@@ -14,7 +14,7 @@
 #
 # --- Connection ---
 #   ssh s4948012@bunya.rcc.uq.edu.au
-#   cd ~/test_bro
+#   cd ~/multi-object-computer-vision-tracking
 #
 # --- Scheduler: SLURM (NOT PBS) ---
 #   Partition:  gpu_cuda
@@ -41,7 +41,7 @@
 
 EPOCHS=${1:-50}
 
-cd ~/test_bro || exit 1
+cd ~/multi-object-computer-vision-tracking || exit 1
 
 module load python/3.10.4-gcccore-11.3.0
 source .venv/bin/activate

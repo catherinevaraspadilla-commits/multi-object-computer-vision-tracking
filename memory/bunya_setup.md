@@ -11,5 +11,5 @@ Bunya HPC (UQ) connection and job setup:
 - GPU allocation example: `--gres=gpu:4 --cpus-per-task=16 --mem=64G --time=06:00:00`
 - Python module: `module load python/3.10.4-gcccore-11.3.0`
 - Environment: venv-based (`source .venv/bin/activate`), not conda
-- Existing project path: `~/Balbi/yolo-sam2-lab-tracking`
+- Existing project path: `~/multi-object-computer-vision-tracking`
 - Interactive: `salloc ...` then `srun --pty bash`
