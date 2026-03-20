@@ -132,6 +132,9 @@ data_config:
   train_labels_path:
     - data/dataset_ratones.slp
   validation_fraction: 0.1
+  preprocessing:
+    input_scaling: 1.0
+    pad_to_stride: 16
   augmentation_config:
     geometric:
       rotation_min: -180.0
