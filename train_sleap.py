@@ -133,8 +133,9 @@ data_config:
     - data/dataset_ratones.slp
   validation_fraction: 0.1
   preprocessing:
-    input_scaling: 1.0
-    pad_to_stride: 16
+    ensure_rgb: false
+    ensure_grayscale: false
+    scale: 1.0
   augmentation_config:
     geometric:
       rotation_min: -180.0
