@@ -20,7 +20,7 @@
 #   Partition:  gpu_cuda
 #   QoS:        gpu
 #   GPU alloc:  --gres=gpu:1 --cpus-per-task=8 --mem=32G --time=06:00:00
-#   Python:     module load python/3.10.4-gcccore-11.3.0
+#   Python:     module load python/3.11.3-gcccore-12.3.0
 #   Env:        source .venv/bin/activate  (venv, NOT conda)
 #
 # --- Submit + Monitor (recommended) ---
@@ -44,7 +44,7 @@ EPOCHS=${1:-50}
 
 cd ~/multi-object-computer-vision-tracking || exit 1
 
-module load python/3.10.4-gcccore-11.3.0
+module load python/3.11.3-gcccore-12.3.0
 source .venv/bin/activate
 
 # Ensure dependencies are installed

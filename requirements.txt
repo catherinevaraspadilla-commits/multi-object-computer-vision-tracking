@@ -1,0 +1,7 @@
+numpy
+roboflow
+sleap-io
+opencv-python-headless
+sleap-nn
+torch
+torchvision
