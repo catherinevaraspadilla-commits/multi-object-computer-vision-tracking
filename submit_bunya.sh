@@ -23,16 +23,17 @@
 #   Python:     module load python/3.10.4-gcccore-11.3.0
 #   Env:        source .venv/bin/activate  (venv, NOT conda)
 #
-# --- Submit jobs ---
-#   sbatch submit_bunya.sh 20        # 20 epochs
-#   sbatch submit_bunya.sh 50        # 50 epochs
-#   sbatch submit_bunya.sh           # default: 50 epochs
-#   bash run_both.sh                 # both 20 and 50 at once
+# --- Submit + Monitor (recommended) ---
+#   bash train.sh 50                 # submit + auto-monitor
+#   bash train.sh 20                 # submit + auto-monitor
 #
-# --- Monitor ---
-#   squeue -u $USER                  # check job status
-#   scancel <jobid>                  # cancel a job
-#   tail -f sleap_<jobid>.log        # watch output
+# --- Submit only ---
+#   sbatch submit_bunya.sh 50       # submit without monitor
+#   bash run_both.sh                # both 20 and 50 at once
+#
+# --- Monitor later ---
+#   bash monitor.sh                  # auto-detect latest job
+#   bash monitor.sh <jobid>          # specific job
 #
 # --- Results ---
 #   results_20ep/
@@ -45,6 +46,9 @@ cd ~/multi-object-computer-vision-tracking || exit 1
 
 module load python/3.10.4-gcccore-11.3.0
 source .venv/bin/activate
+
+# Ensure dependencies are installed
+pip install --quiet numpy roboflow sleap-io opencv-python-headless 2>/dev/null
 
 echo "============================================"
 echo "SLEAP Training Job"
