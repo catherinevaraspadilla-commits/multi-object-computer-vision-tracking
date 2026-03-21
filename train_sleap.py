@@ -46,7 +46,7 @@ def download_dataset():
 
     rf = Roboflow(api_key="kD254mWPx6WlP2phIeC4")
     project = rf.workspace("modelos-yolo").project("pruebasratslabs-c02t9")
-    version = project.version(8)
+    version = project.version(9)
     dataset_coco = version.download("coco")
     print(f"Dataset downloaded to: {dataset_coco.location}")
     return dataset_coco.location
@@ -204,9 +204,10 @@ def train(config_path):
 
 
 def collect_results(output_dir, run_name):
-    """Copy model and logs to output directory."""
+    """Collect all results into output_dir and create a zip for easy download."""
     os.makedirs(output_dir, exist_ok=True)
 
+    # Copy model checkpoint
     model_src = os.path.join("models", run_name)
     if os.path.exists(model_src):
         model_dst = os.path.join(output_dir, "model")
@@ -220,8 +221,33 @@ def collect_results(output_dir, run_name):
     if os.path.exists(config_path):
         shutil.copy2(config_path, output_dir)
 
-    print(f"Results saved to: {output_dir}")
-    print(f"Contents: {os.listdir(output_dir)}")
+    # Copy SLURM log (find the most recent one)
+    import glob
+    logs = sorted(glob.glob("sleap_*.log"), key=os.path.getmtime, reverse=True)
+    if logs:
+        shutil.copy2(logs[0], output_dir)
+        print(f"Log copied: {logs[0]}")
+
+    # Create zip ready for scp download
+    zip_name = f"{output_dir}"
+    shutil.make_archive(zip_name, "zip", ".", output_dir)
+    print(f"Zip created: {zip_name}.zip")
+
+    # Print contents
+    print(f"\nResults saved to: {output_dir}/")
+    for root, dirs, files in os.walk(output_dir):
+        level = root.replace(output_dir, "").count(os.sep)
+        indent = "  " * level
+        print(f"  {indent}{os.path.basename(root)}/")
+        for f in files:
+            size = os.path.getsize(os.path.join(root, f))
+            size_str = f"{size / 1024 / 1024:.1f}MB" if size > 1024 * 1024 else f"{size / 1024:.0f}KB"
+            print(f"  {indent}  {f} ({size_str})")
+
+    print(f"\n{'=' * 60}")
+    print(f"DOWNLOAD TO LOCAL:")
+    print(f"  scp s4948012@bunya.rcc.uq.edu.au:~/multi-object-computer-vision-tracking/{zip_name}.zip .")
+    print(f"{'=' * 60}")
 
 
 def main():
